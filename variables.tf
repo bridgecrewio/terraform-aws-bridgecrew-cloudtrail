@@ -11,8 +11,8 @@ variable "resource_name_prefix" {
 
 variable "create_cloudtrail" {
   description = "Indicate whther a new CloudTrail trail should be created. If not - existing_sns_arn and existing_bucket_name are required parameters."
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "log_file_prefix" {
