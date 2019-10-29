@@ -1,5 +1,5 @@
 locals {
-  resource_name_prefix = var.resource_name_prefix == "" ? "${var.customer_name}-bc" : var.resource_name_prefix
+  resource_name_prefix = var.account_alias == "" ? "${var.company_name}-bc" : "${var.company_name}-${var.account_alias}"
 }
 
 resource "random_string" "external_id" {
@@ -9,12 +9,12 @@ resource "random_string" "external_id" {
 }
 
 resource "aws_cloudformation_stack" "bridgecrew_stack" {
-  name         = "${var.customer_name}-bridgecrew"
+  name         = "${local.resource_name_prefix}-bridgecrew"
   template_url = "https://bc-cf-template-890234264427.s3-us-west-2.amazonaws.com/cloud-formation-template.json"
   capabilities = ["CAPABILITY_NAMED_IAM"]
   parameters = {
     ResourceNamePrefix : local.resource_name_prefix
-    CustomerName : var.customer_name
+    CustomerName : var.company_name
     ExternalID : random_string.external_id.result
     CreateTrail : var.create_cloudtrail ? "Yes" : "No"
     NewTrailLogFilePrefix : var.create_cloudtrail ? var.log_file_prefix : ""

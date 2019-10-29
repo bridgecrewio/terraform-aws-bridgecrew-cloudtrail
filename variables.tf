@@ -1,10 +1,10 @@
-variable "customer_name" {
+variable "company_name" {
   type        = string
-  description = "The name of the customer the integration is for. Must be alphanumeric."
+  description = "The name of the company the integration is for. Must be alphanumeric."
 }
 
-variable "resource_name_prefix" {
-  description = "The prefix that will be given to all the resources in the stack. Default is {customer_name}-bc"
+variable "account_alias" {
+  description = "The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company_name}-bc"
   type        = string
   default     = ""
 }
