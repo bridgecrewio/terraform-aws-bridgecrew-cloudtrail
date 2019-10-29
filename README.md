@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-cloudtrail.svg?style=svg)](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-cloudtrail)
 
 ## Installation Options
-A Terraform module to create an Amazon Web Services (AWS) CloudTrail integration with Bridgecrew.
+This is a terraform module that creates an Amazon Web Services (AWS) CloudTrail integration with Bridgecrew.
 
 ### Starting fresh
 This stack is created with all the best practices and CIS benchmark requirements:
@@ -19,6 +19,9 @@ The module supports connecting to an existing CloudTrail trail. This requires 3 
 2. Supplying the name of the bucket where the CloudTrail logs are being saved to, as `existing_bucket_name`.
 3. Supplying the ARN of the SNS used by the trail to notify of new logs, in `existing_sns_arn`. 
 This can be configured manually on the existing trail. 
+
+### Importing existing AWS CloudFormation 
+WIP
 
 ## Architecture:
 ![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
