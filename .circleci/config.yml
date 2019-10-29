@@ -9,14 +9,14 @@ jobs:
       REGION: us-west-2
     steps:
       - checkout:
-          path: ~/bc-stack/terraform-aws-bridgecrew-cloudtrail
+          path: ~/
       - run:
           name: Create main.tf file that uses the module
           command: |
             cat << EOF > main.tf
             provider "aws" {
               region  = "us-east-1"
-              profile = "dev"
+              profile = "test"
             }
 
             module "bc_stack" {
