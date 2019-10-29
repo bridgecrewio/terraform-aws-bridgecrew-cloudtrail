@@ -7,6 +7,9 @@
 
 A Terraform module to create an Amazon Web Services (AWS) integration with Bridgecrew.
 
+## Architecture:
+![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
+
 ## Variables:
 | Name | Required? | Type | Default Value | Example Value | Description |
 |---|---|---|---|---|---|
