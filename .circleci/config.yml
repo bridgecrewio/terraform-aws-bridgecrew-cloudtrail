@@ -1,0 +1,48 @@
+version: 2
+
+jobs:
+  test_compile_and_run:
+    working_directory: ~/bc-stack
+    docker:
+      - image: bridgecrew/circleci-base:1.9
+    environment:
+      REGION: us-west-2
+    steps:
+      - checkout:
+          path: ~/bc-stack/terraform-aws-bridgecrew-cloudtrail
+      - run:
+          name: Create main.tf file that uses the module
+          command: |
+            cat << EOF > main.tf
+            provider "aws" {
+              region  = "us-east-1"
+              profile = "dev"
+            }
+
+            module "bc_stack" {
+              source = "../"
+              customer_name = "testcustomer"
+            }
+            EOF
+      - run:
+          name: Check formatting
+          command: |
+            terraform fmt -check=true
+            exit $( echo $? )
+      - run:
+          name: Configure AWS credentials
+          command: |
+            aws configure --profile test set aws_access_key_id $ACME_AWS_ACCESS_KEY_ID
+            aws configure --profile test set aws_secret_access_key $ACME_AWS_SECRET_ACCESS_KEY
+            aws configure --profile test set region $REGION
+      - run:
+          name: Plan to see if terraform makes sense
+          command: |
+            terraform init
+            terraform plan
+
+workflows:
+  version: 2
+  tests:
+    jobs:
+      - test_compile_and_run
