@@ -10,7 +10,7 @@ resource "random_string" "external_id" {
 
 resource "aws_cloudformation_stack" "bridgecrew_stack" {
   name         = "${var.customer_name}-bridgecrew"
-  template_url = "https://bc-cf-template-372188014275.s3-us-west-2.amazonaws.com/cloud-formation-template.json"
+  template_url = "https://bc-cf-template-890234264427.s3-us-west-2.amazonaws.com/cloud-formation-template.json"
   capabilities = ["CAPABILITY_NAMED_IAM"]
   parameters = {
     ResourceNamePrefix : local.resource_name_prefix
