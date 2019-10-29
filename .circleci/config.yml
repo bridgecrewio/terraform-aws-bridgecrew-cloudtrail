@@ -20,7 +20,7 @@ jobs:
             }
 
             module "bc_stack" {
-              source = "../"
+              source        = "../"
               customer_name = "testcustomer"
             }
             EOF
