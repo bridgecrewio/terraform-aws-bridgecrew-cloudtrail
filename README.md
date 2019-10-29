@@ -1,13 +1,13 @@
-# Terraform AWS Secured PostgreSQL RDS
+# Terraform Bridgecrew Cloudtrail Integration
 [![Maintained by Bridgecrew.io](https://img.shields.io/badge/maintained%20by-bridgecrew.io-blueviolet)](https://bridgecrew.io)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/bridgecrewio/terraform-aws-bridgecrew-stack.svg?label=latest)](https://github.com/bridgecrewio/terraform-aws-bridgecrew-stack/releases/latest)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/bridgecrewio/terraform-aws-bridgecrew-integration.svg?label=latest)](https://github.com/bridgecrewio/terraform-aws-bridgecrew-integration/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
-[![CircleCI](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-stack.svg?style=svg)](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-stack)
+[![CircleCI](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-integration.svg?style=svg)](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-integration)
 
 
 A Terraform module to create an Amazon Web Services (AWS) integration with Bridgecrew.
 
-## Configurations:
+## Variables:
 | Name | Required? | Type | Default Value | Example Value | Description |
 |---|---|---|---|---|---|
 | customer_name| YES | String | | testcustomer | The name of the customer. Must be alphanumeric. |
