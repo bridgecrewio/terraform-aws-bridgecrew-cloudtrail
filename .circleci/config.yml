@@ -20,8 +20,8 @@ jobs:
             }
 
             module "bc_stack" {
-              source        = "./terraform-aws-bridgecrew-cloudtrail/"
-              customer_name = "testcustomer"
+              source       = "./terraform-aws-bridgecrew-cloudtrail/"
+              company_name = "testcustomer"
             }
             EOF
       - run:
