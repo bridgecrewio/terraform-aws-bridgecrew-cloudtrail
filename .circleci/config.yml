@@ -9,7 +9,7 @@ jobs:
       REGION: us-west-2
     steps:
       - checkout:
-          path: ~/
+          path: ~/bc-stack/terraform-aws-bridgecrew-cloudtrail
       - run:
           name: Create main.tf file that uses the module
           command: |
@@ -20,7 +20,7 @@ jobs:
             }
 
             module "bc_stack" {
-              source        = "../"
+              source        = "./terraform-aws-bridgecrew-cloudtrail/"
               customer_name = "testcustomer"
             }
             EOF
