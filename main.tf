@@ -10,7 +10,7 @@ resource "random_string" "external_id" {
 
 resource "aws_cloudformation_stack" "bridgecrew_stack" {
   name         = "${local.resource_name_prefix}-bridgecrew"
-  template_url = "https://bc-cf-template-890234264427.s3-us-west-2.amazonaws.com/cloud-formation-template.json"
+  template_url = "https://bc-cf-template-890234264427-prod.s3-us-west-2.amazonaws.com/cloud-formation-template.json"
   capabilities = ["CAPABILITY_NAMED_IAM"]
   parameters = {
     ResourceNamePrefix : local.resource_name_prefix
@@ -20,5 +20,6 @@ resource "aws_cloudformation_stack" "bridgecrew_stack" {
     NewTrailLogFilePrefix : var.create_cloudtrail ? var.log_file_prefix : ""
     ExistingTrailBucketName : var.create_cloudtrail ? "" : var.existing_bucket_name
     ExistingTrailTopicArn : var.create_cloudtrail ? "" : var.existing_sns_arn
+    SecurityAccountId: var.security_account_id
   }
 }

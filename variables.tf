@@ -32,3 +32,9 @@ variable "existing_bucket_name" {
   type        = string
   default     = null
 }
+
+variable "security_account_id" {
+  description = "When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account"
+  type        = string
+  default     = ""
+}
