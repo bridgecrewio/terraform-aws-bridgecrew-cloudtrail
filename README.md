@@ -35,6 +35,7 @@ WIP
 | log_file_prefix | NO | String |  | cloudtrail | The prefix which will be given to all the log files saved to the bucket. |
 | existing_sns_arn | NO | String | | arn:aws:sns:us-east-1:090772183824:test-bc-bridgecrewcws | When connecting to an existing CloudTrail trail, please supply the existing trail's SNS ARN. |
 | existing_bucket_name | NO | String | | test-bc-bridgecrewcws | When connecting to an existing CloudTrail trail, please supply the existing trail's bucket name (NOT ARN). |
+| security_account_id | NO | String | "" | 12345678900 | When connecting to a centralized CloudTrail bucket setup, please supply the ID of the AWS account that hosts the CloudTrail log bucket. We must be deployed in that central logging account beforehand for the integration to work correctly. |
 
 ## Outuput
 | Name |  Example Value | Description |
