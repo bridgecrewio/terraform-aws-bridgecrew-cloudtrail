@@ -42,7 +42,7 @@ resource "aws_iam_role_policy" "bridgecrew_cws_policy" {
   count  = var.create_bridgecrew_connection ? 1 : 0
   name   = "bridgecrew_cws_policy"
   policy = data.aws_iam_policy_document.bridgecrew_cws_policy[0].json
-  role   = aws_iam_role.bridgecrew_account_role.id
+  role   = aws_iam_role.bridgecrew_account_role[0].name
 }
 
 data "aws_iam_policy_document" "bridgecrew_cws_policy" {
