@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "bridgecrew_cws_bucket" {
   statement {
     sid       = "CloudTrailWrite"
     actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/${var.log_file_prefix}${var.log_file_prefix != "" ? "/" : ""}AWSLogs/${var.source_account_id != "" ? var.source_account_id : local.account_id}/*"]
+    resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/${local.log_file_prefix}AWSLogs/${var.source_account_id != "" ? var.source_account_id : local.account_id}/*"]
     effect    = "Allow"
 
     principals {
@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "bridgecrew_cws_bucket" {
     content {
       sid       = "OrgCloudTrailWrite"
       actions   = ["s3:PutObject"]
-      resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/${var.log_file_prefix}${var.log_file_prefix != "" ? "/" : ""}AWSLogs/${statement.value}/*"]
+      resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/${local.log_file_prefix}AWSLogs/${statement.value}/*"]
       effect    = "Allow"
 
       principals {
@@ -128,7 +128,7 @@ data "aws_iam_policy_document" "bridgecrew_cws_bucket" {
   statement {
     sid       = "DenyUnsecureTransport"
     actions   = ["s3:*"]
-    resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/*"]
+    resources = ["${aws_s3_bucket.bridgecrew_cws_bucket[0].arn}/*", aws_s3_bucket.bridgecrew_cws_bucket[0].arn]
     effect    = "Deny"
 
     principals {

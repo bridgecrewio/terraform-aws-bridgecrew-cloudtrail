@@ -1,7 +1,7 @@
 resource "aws_cloudtrail" "trail" {
   count          = var.create_cloudtrail ? 1 : 0
   depends_on     = [aws_s3_bucket_policy.bridgecrew_cws_bucket]
-  name           = "${local.resource_name_prefix}-bridgecrewcws"
+  name           = "${local.resource_name_prefix}-${local.account_id}-bridgecrewcws"
   s3_bucket_name = local.s3_bucket
   s3_key_prefix  = var.log_file_prefix
 

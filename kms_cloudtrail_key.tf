@@ -17,9 +17,7 @@ data "aws_iam_policy_document" "cloudtrail_key" {
   statement {
     sid = "AccountOwner"
 
-    actions = [
-      "kms:*",
-    ]
+    actions = ["kms:*"]
 
     effect = "Allow"
 
@@ -73,18 +71,10 @@ data "aws_iam_policy_document" "cloudtrail_key" {
   }
 
   statement {
-    sid = "BridgecrewDecrypt"
-    actions = [
-      "kms:Decrypt",
-      "kms:ReEncryptFrom",
-    ]
+    sid     = "BridgecrewDecrypt"
+    actions = ["kms:Decrypt"]
 
     effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
-    }
 
     condition {
       test     = "StringEquals"
@@ -95,13 +85,27 @@ data "aws_iam_policy_document" "cloudtrail_key" {
     condition {
       test     = "StringLike"
       variable = "kms:EncryptionContext:aws:cloudtrail:arn"
-      values = [
-        "arn:aws:cloudtrail:*:${
-          var.source_account_id != "" ? var.source_account_id : local.account_id
-        }:trail/*"
-      ]
+      values   = ["arn:aws:cloudtrail:*:${var.source_account_id != "" ? var.source_account_id : local.account_id}:trail/*"]
     }
 
     resources = ["*"]
+  }
+
+  statement {
+    sid     = "AllowSqsSnsEncryptDecrypt"
+    actions = ["kms:Decrypt", "kms:Encrypt"]
+
+    effect = "Allow"
+
+    principals {
+      identifiers = ["sns.amazonaws.com", "sqs.amazonaws.com"]
+      type        = "Service"
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "kms:CallerAccount"
+      values   = [var.source_account_id != "" ? var.source_account_id : local.account_id]
+    }
   }
 }

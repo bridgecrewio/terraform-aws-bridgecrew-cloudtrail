@@ -3,6 +3,7 @@ resource "aws_sqs_queue" "cloudtrail_queue" {
   name                       = "${local.resource_name_prefix}-bridgecrewcws"
   visibility_timeout_seconds = 43200
   policy                     = data.aws_iam_policy_document.cloudtrail_queue[0].json
+  kms_master_key_id          = aws_kms_alias.cloudtrail_key.id
 }
 
 resource "aws_sns_topic_subscription" "cloudtrail_queue" {

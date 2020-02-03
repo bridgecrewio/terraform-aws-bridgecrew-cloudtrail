@@ -38,8 +38,58 @@ resource "aws_iam_role_policy_attachment" "bridgecrew_cloud_formation" {
   policy_arn = "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "bridgecrew_cws_policy" {
-  count      = var.create_bridgecrew_connection ? 1 : 0
-  role       = aws_iam_role.bridgecrew_account_role[0].name
-  policy_arn = aws_iam_policy.bridgecrew_cws_policy[0].arn
+resource "aws_iam_role_policy" "bridgecrew_cws_policy" {
+  count  = var.create_bridgecrew_connection ? 1 : 0
+  name   = "bridgecrew_cws_policy"
+  policy = data.aws_iam_policy_document.bridgecrew_cws_policy[0].json
+  role   = aws_iam_role.bridgecrew_account_role.id
+}
+
+data "aws_iam_policy_document" "bridgecrew_cws_policy" {
+  count = var.create_bridgecrew_connection ? 1 : 0
+  statement {
+    sid = "ConsumeNotifications"
+    actions = [
+      "sqs:GetQueueAttributes",
+      "sqs:GetQueueUrl",
+      "sqs:DeleteMessage",
+      "sqs:ReceiveMessage",
+    ]
+
+    effect = "Allow"
+
+    resources = [aws_sqs_queue.cloudtrail_queue[0].arn]
+  }
+
+  statement {
+    sid     = "ListLogFiles"
+    actions = ["s3:ListBucket"]
+
+    effect = "Allow"
+
+    resources = ["arn:aws:s3:::${local.s3_bucket}/${local.log_file_prefix}AWSLogs/*"]
+
+    condition {
+      test     = "StringLike"
+      variable = "s3:prefix"
+      values   = ["${local.log_file_prefix}AWSLogs/*"]
+    }
+  }
+
+  statement {
+    sid     = "ReadLogFiles"
+    actions = ["s3:Get*"]
+    effect  = "Allow"
+
+    resources = ["arn:aws:s3:::${local.s3_bucket}/${local.log_file_prefix}AWSLogs/*"]
+  }
+
+  statement {
+    sid     = "GetAccountAlias"
+    actions = ["iam:ListAccountAliases", "cloudwatch:GetMetricData", "sns:ListSubscriptions"]
+
+    effect = "Allow"
+
+    resources = ["*"]
+  }
 }
