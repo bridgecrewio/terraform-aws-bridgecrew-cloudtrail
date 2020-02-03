@@ -22,16 +22,17 @@ resource "random_string" "external_id" {
 }
 
 data template_file "message" {
-  filename = "${path.module}/message.json"
-  vars {
+  count = var.create_bridgecrew_connection ? 1 : 0
+  template = "${path.module}/message.json"
+  vars = {
     request_type         = "Create"
     bridgecrew_sns_topic = local.bridgecrew_sns_topic
     customer_name        = var.company_name
     account_id           = local.account_id
     external_id          = random_string.external_id.result
     logging_account_id   = var.source_account_id != "" ? var.source_account_id : local.account_id
-    sqs_queue_url        = aws_sqs_queue.cloudtrail_queue.id
-    role_arn             = aws_iam_role.bridgecrew_account_role.arn
+    sqs_queue_url        = aws_sqs_queue.cloudtrail_queue[0].id
+    role_arn             = aws_iam_role.bridgecrew_account_role[0].arn
     region               = data.aws_region.region.id
   }
 }
@@ -39,11 +40,11 @@ data template_file "message" {
 resource "null_resource" "update_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
-    build = sha256(data.template_file.message.rendered)
+    build = sha256(data.template_file.message[0].rendered)
   }
 
   provisioner "local-exec" {
-    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${data.template_file.message.rendered}\""
+    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${data.template_file.message[0].rendered}\""
   }
 }
 
@@ -51,7 +52,7 @@ resource "null_resource" "disconnect_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
 
   provisioner "local-exec" {
-    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${replace("Create", "Delete", data.template_file.message.rendered)}\""
+    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${replace("Create", "Delete", data.template_file.message[0].rendered)}\""
     when    = "destroy"
   }
 }
