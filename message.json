@@ -1,6 +1,7 @@
 {
   "RequestType": "${request_type}",
   "ServiceToken": "${bridgecrew_sns_topic}",
+  "Source": "Terraform",
   "ResourceProperties": {
     "ServiceToken": "${bridgecrew_sns_topic}",
     "Account": "bridgecrew",
@@ -8,10 +9,10 @@
     "AWSAccountId": "${account_id}",
     "ExternalId": "${external_id}",
     "SecurityAccountId": "${logging_account_id}",
-    "TemplateVersion": "1.3",
+    "TemplateVersion": "1.4",
     "Type": "AWS_CT_CFG",
     "SqsQueueUrl": "${sqs_queue_url}",
-    "CrossAccountRoleArn": "{role_arn}",
+    "CrossAccountRoleArn": "${role_arn}",
     "CustomerName": "${customer_name}",
     "DeploymentRegion": "${region}"
   }

@@ -1,9 +1,9 @@
 locals {
   resource_name_prefix  = var.account_alias == "" ? "${var.company_name}-bc" : "${var.company_name}-${var.account_alias}"
-  bridgecrew_account_id = "890234264427"
-  bridgecrew_sns_topic  = "arn:aws:sns:${data.aws_region.region.name}:${local.bridgecrew_account_id}:topic/handle-customer-actions"
+  bridgecrew_account_id = "090772183824"
+  bridgecrew_sns_topic  = "arn:aws:sns:${data.aws_region.region.name}:${local.bridgecrew_account_id}:handle-customer-actionsnimcf"
   log_file_prefix       = var.log_file_prefix == "" ? "" : "${var.log_file_prefix}/"
-  profile_str           = var.aws_profile ? "--profile ${var.aws_profile}" : ""
+  profile_str           = var.aws_profile != "" ? "--profile ${var.aws_profile}" : ""
 
   s3_bucket  = var.existing_bucket_name == null ? aws_s3_bucket.bridgecrew_cws_bucket[0].bucket : var.existing_bucket_name
   kms_key    = var.existing_kms_key_arn == null ? aws_kms_key.cloudtrail_key[0].arn : var.existing_kms_key_arn
@@ -23,7 +23,7 @@ resource "random_string" "external_id" {
 
 data template_file "message" {
   count = var.create_bridgecrew_connection ? 1 : 0
-  template = "${path.module}/message.json"
+  template = file("${path.module}/message.json")
   vars = {
     request_type         = "Create"
     bridgecrew_sns_topic = local.bridgecrew_sns_topic
@@ -40,11 +40,23 @@ data template_file "message" {
 resource "null_resource" "update_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
-    build = sha256(data.template_file.message[0].rendered)
+    build = md5(data.template_file.message[0].rendered)
   }
 
   provisioner "local-exec" {
-    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${data.template_file.message[0].rendered}\""
+    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --target-arn \"${local.bridgecrew_sns_topic}\" --message '${jsonencode(data.template_file.message[0].rendered)}'"
+  }
+
+  depends_on = [aws_cloudtrail.trail]
+}
+
+resource "null_resource" "testing" {
+  triggers = {
+    build = timestamp()
+  }
+
+  provisioner "local-exec" {
+    command = "echo aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --target-arn \"${local.bridgecrew_sns_topic}\" --message '${jsonencode(data.template_file.message[0].rendered)}'"
   }
 }
 
@@ -52,7 +64,7 @@ resource "null_resource" "disconnect_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
 
   provisioner "local-exec" {
-    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --topic-arn ${local.bridgecrew_sns_topic} --message \"${replace("Create", "Delete", data.template_file.message[0].rendered)}\""
+    command = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --target-arn \"${local.bridgecrew_sns_topic}\" --message ${replace("Create", "Delete", jsonencode(data.template_file.message[0].rendered))}"
     when    = "destroy"
   }
 }

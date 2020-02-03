@@ -30,25 +30,14 @@ data "aws_iam_policy_document" "cloudtrail_key" {
   }
 
   statement {
-    sid = "CloudTrailEncrypt"
-    actions = [
-      "kms:GenerateDataKey*",
-      "kms:ReEncryptFrom",
-    ]
+    sid = "CloudTrailAccess"
+    actions = ["kms:*"]
 
     effect = "Allow"
 
     principals {
       type        = "Service"
       identifiers = ["cloudtrail.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringLike"
-      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
-      values = [
-        "arn:aws:cloudtrail:*:${var.source_account_id != "" ? var.source_account_id : local.account_id}:trail/*"
-      ]
     }
 
     resources = ["*"]
@@ -88,7 +77,10 @@ data "aws_iam_policy_document" "cloudtrail_key" {
       values   = ["arn:aws:cloudtrail:*:${var.source_account_id != "" ? var.source_account_id : local.account_id}:trail/*"]
     }
 
-    resources = ["*"]
+    principals {
+      identifiers = ["*"]
+      type        = "AWS"
+    }
   }
 
   statement {
