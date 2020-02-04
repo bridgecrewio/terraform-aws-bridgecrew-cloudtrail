@@ -14,6 +14,7 @@
     "SqsQueueUrl": "${sqs_queue_url}",
     "CrossAccountRoleArn": "${role_arn}",
     "CustomerName": "${customer_name}",
-    "DeploymentRegion": "${region}"
+    "DeploymentRegion": "${region}",
+    "IntegrationName": "Terraform"
   }
 }
