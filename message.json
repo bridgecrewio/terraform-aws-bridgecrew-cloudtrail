@@ -1,6 +1,7 @@
 {
   "RequestType": "${request_type}",
   "ServiceToken": "${bridgecrew_sns_topic}",
+  "PhysicalResourceId": "",
   "Source": "Terraform",
   "ResourceProperties": {
     "ServiceToken": "${bridgecrew_sns_topic}",

@@ -5,8 +5,9 @@ locals {
 resource "aws_s3_bucket" "bridgecrew_cws_bucket" {
   count = var.existing_bucket_name == null ? 1 : 0
 
-  bucket = local.bucket_name
-  acl    = "private"
+  bucket        = local.bucket_name
+  acl           = "private"
+  force_destroy = true
 
   versioning {
     enabled = true
@@ -148,4 +149,6 @@ resource "aws_s3_bucket_policy" "bridgecrew_cws_bucket" {
   count  = var.existing_bucket_name == null ? 1 : 0
   bucket = aws_s3_bucket.bridgecrew_cws_bucket[0].id
   policy = data.aws_iam_policy_document.bridgecrew_cws_bucket[0].json
+
+  depends_on = [aws_s3_bucket_public_access_block.bridgecrew_cws_bucket]
 }
