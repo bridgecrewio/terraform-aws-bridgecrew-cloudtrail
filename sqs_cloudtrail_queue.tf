@@ -1,4 +1,5 @@
 resource "aws_sqs_queue" "cloudtrail_queue" {
+  #checkov:skip=CKV_AWS_27:Non-sensitive queue
   count                      = var.create_bridgecrew_connection ? 1 : 0
   name                       = "${local.resource_name_prefix}-bridgecrewcws"
   visibility_timeout_seconds = 43200

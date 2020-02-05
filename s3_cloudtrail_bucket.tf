@@ -5,9 +5,8 @@ locals {
 resource "aws_s3_bucket" "bridgecrew_cws_bucket" {
   count = var.existing_bucket_name == null ? 1 : 0
 
-  bucket        = local.bucket_name
-  acl           = "private"
-  force_destroy = true
+  bucket = local.bucket_name
+  acl    = "private"
 
   versioning {
     enabled = true
