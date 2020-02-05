@@ -6,7 +6,7 @@ locals {
   profile_str           = var.aws_profile != "" ? "--profile ${var.aws_profile}" : ""
 
   s3_bucket  = var.existing_bucket_name == null ? aws_s3_bucket.bridgecrew_cws_bucket[0].bucket : var.existing_bucket_name
-  kms_key    = var.existing_kms_key_arn == null ? aws_kms_key.cloudtrail_key[0].arn : var.existing_kms_key_arn
+  kms_key    = var.create_cloudtrail ? aws_kms_key.cloudtrail_key[0].arn : null
   sns_topic  = var.existing_sns_arn == null ? aws_sns_topic.cloudtrail_to_bridgecrew[0].arn : var.existing_sns_arn
   account_id = data.aws_caller_identity.caller.account_id
 }

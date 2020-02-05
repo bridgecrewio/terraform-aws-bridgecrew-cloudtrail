@@ -39,12 +39,6 @@ variable "existing_bucket_name" {
   default     = null
 }
 
-variable "existing_kms_key_arn" {
-  description = "When connecting to an existing CloudTrail trail, please supply the kms key ARN used to encrypt"
-  type        = string
-  default     = null
-}
-
 variable "security_account_id" {
   description = "When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account"
   type        = string
@@ -72,11 +66,6 @@ variable "logs_bucket_id" {
 variable "log_file_expiration" {
   type    = number
   default = 30
-}
-
-variable "debug_policy" {
-  type    = bool
-  default = true
 }
 
 variable "aws_profile" {

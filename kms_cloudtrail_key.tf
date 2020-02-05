@@ -1,19 +1,19 @@
 resource "aws_kms_key" "cloudtrail_key" {
-  count               = var.existing_kms_key_arn == null ? 1 : 0
-  description         = "KMS for Cloudtrail, shared with Lacework and Bridgecrew"
+  count               = var.create_cloudtrail ? 1 : 0
+  description         = "KMS for CloudTrail, shared with Bridgecrew"
   enable_key_rotation = true
   policy              = data.aws_iam_policy_document.cloudtrail_key[0].json
 }
 
 resource "aws_kms_alias" "cloudtrail_key" {
-  count         = var.existing_kms_key_arn == null ? 1 : 0
+  count         = var.create_cloudtrail ? 1 : 0
   name          = "alias/${local.resource_name_prefix}-CloudtrailKey"
   target_key_id = aws_kms_key.cloudtrail_key[0].key_id
 }
 
 
 data "aws_iam_policy_document" "cloudtrail_key" {
-  count = var.existing_kms_key_arn == null ? 1 : 0
+  count = var.create_cloudtrail ? 1 : 0
   statement {
     sid = "AccountOwner"
 
@@ -44,26 +44,12 @@ data "aws_iam_policy_document" "cloudtrail_key" {
   }
 
   statement {
-    sid = "CloudTrailDescribe"
-    actions = [
-      "kms:DescribeKey",
-    ]
-
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
-    }
-
-    resources = ["*"]
-  }
-
-  statement {
     sid     = "BridgecrewDecrypt"
     actions = ["kms:Decrypt"]
 
     effect = "Allow"
+
+    resources = ["*"]
 
     condition {
       test     = "StringEquals"
@@ -80,24 +66,6 @@ data "aws_iam_policy_document" "cloudtrail_key" {
     principals {
       identifiers = ["*"]
       type        = "AWS"
-    }
-  }
-
-  statement {
-    sid     = "AllowSqsSnsEncryptDecrypt"
-    actions = ["kms:Decrypt", "kms:Encrypt"]
-
-    effect = "Allow"
-
-    principals {
-      identifiers = ["sns.amazonaws.com", "sqs.amazonaws.com"]
-      type        = "Service"
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "kms:CallerAccount"
-      values   = [var.source_account_id != "" ? var.source_account_id : local.account_id]
     }
   }
 }

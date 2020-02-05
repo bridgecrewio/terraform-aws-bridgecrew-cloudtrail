@@ -1,7 +1,6 @@
 resource "aws_sns_topic" "cloudtrail_to_bridgecrew" {
   count             = var.existing_sns_arn == null ? 1 : 0
   name              = "${local.resource_name_prefix}-bridgecrewcws"
-  kms_master_key_id = aws_kms_alias.cloudtrail_key[0].id
 }
 
 data "aws_iam_policy_document" "cloudtrail_to_bridgecrew" {
