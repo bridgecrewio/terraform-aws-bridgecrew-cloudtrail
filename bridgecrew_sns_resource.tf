@@ -18,11 +18,11 @@ resource null_resource "create_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
 
   provisioner "local-exec" {
-    command     = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --target-arn \"${local.bridgecrew_sns_topic}\" --message '${jsonencode(data.template_file.message[0].rendered)}'"
+    command     = "aws sns ${local.profile_str} --region ${data.aws_region.region.id} publish --target-arn \"${local.bridgecrew_sns_topic}\" --message '${jsonencode(data.template_file.message[0].rendered)}' && sleep 30"
     working_dir = path.module
   }
 
-  depends_on = [aws_iam_role.bridgecrew_account_role, aws_sqs_queue.cloudtrail_queue]
+  depends_on = [aws_iam_role_policy.bridgecrew_cws_policy, aws_sqs_queue.cloudtrail_queue, aws_s3_bucket.bridgecrew_cws_bucket]
 }
 
 resource null_resource "update_bridgecrew" {

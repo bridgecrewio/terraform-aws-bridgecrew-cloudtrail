@@ -3,7 +3,7 @@ locals {
   bridgecrew_account_id = "890234264427"
   bridgecrew_sns_topic  = "arn:aws:sns:${data.aws_region.region.name}:${local.bridgecrew_account_id}:handle-customer-actions"
   log_file_prefix       = var.log_file_prefix == "" ? "" : "${var.log_file_prefix}/"
-  profile_str           = var.aws_profile != "" ? "--profile ${var.aws_profile}" : ""
+  profile_str           = var.aws_profile != null ? "--profile ${var.aws_profile}" : ""
 
   s3_bucket  = var.existing_bucket_name == null ? aws_s3_bucket.bridgecrew_cws_bucket[0].bucket : var.existing_bucket_name
   kms_key    = var.create_cloudtrail ? aws_kms_key.cloudtrail_key[0].arn : null
