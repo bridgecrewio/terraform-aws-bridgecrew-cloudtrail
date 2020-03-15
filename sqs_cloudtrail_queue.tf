@@ -1,4 +1,4 @@
-resource "aws_sqs_queue" "cloudtrail_queue" {
+resource aws_sqs_queue "cloudtrail_queue" {
   #checkov:skip=CKV_AWS_27:Non-sensitive queue
   count                      = var.create_bridgecrew_connection ? 1 : 0
   name                       = "${local.resource_name_prefix}-bridgecrewcws"
@@ -6,14 +6,14 @@ resource "aws_sqs_queue" "cloudtrail_queue" {
   policy                     = data.aws_iam_policy_document.cloudtrail_queue[0].json
 }
 
-resource "aws_sns_topic_subscription" "cloudtrail_queue" {
+resource aws_sns_topic_subscription "cloudtrail_queue" {
   count     = var.create_bridgecrew_connection ? 1 : 0
   topic_arn = local.sns_topic
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.cloudtrail_queue[0].arn
 }
 
-data "aws_iam_policy_document" "cloudtrail_queue" {
+data aws_iam_policy_document "cloudtrail_queue" {
   count = var.create_bridgecrew_connection ? 1 : 0
   statement {
     sid = "AllowSnsAccess"

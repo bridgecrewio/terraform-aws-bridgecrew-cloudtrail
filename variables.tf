@@ -45,12 +45,6 @@ variable "security_account_id" {
   default     = ""
 }
 
-variable "source_account_id" {
-  description = "Account that need access to connect to the cloudtrail created by this module"
-  type        = string
-  default     = ""
-}
-
 variable "organization_id" {
   description = "ID or the organization (for org-wide cloudtrails)"
   type        = string
@@ -71,5 +65,5 @@ variable "log_file_expiration" {
 variable "aws_profile" {
   type        = string
   description = "The profile that was used to deploy this module. If the default profile / default credentials are used, do not supply this value."
-  default     = ""
+  default     = null
 }
