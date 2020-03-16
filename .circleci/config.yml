@@ -29,17 +29,6 @@ jobs:
           command: |
             terraform fmt -check=true
             exit $( echo $? )
-      - run:
-          name: Configure AWS credentials
-          command: |
-            aws configure --profile test set aws_access_key_id $ACME_AWS_ACCESS_KEY_ID
-            aws configure --profile test set aws_secret_access_key $ACME_AWS_SECRET_ACCESS_KEY
-            aws configure --profile test set region $REGION
-      - run:
-          name: Plan to see if terraform makes sense
-          command: |
-            terraform init
-            terraform plan
 
 workflows:
   version: 2
