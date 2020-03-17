@@ -39,20 +39,8 @@ variable "existing_bucket_name" {
   default     = null
 }
 
-variable "existing_kms_key_arn" {
-  description = "When connecting to an existing CloudTrail trail, please supply the kms key ARN used to encrypt"
-  type        = string
-  default     = null
-}
-
 variable "security_account_id" {
   description = "When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account"
-  type        = string
-  default     = ""
-}
-
-variable "source_account_id" {
-  description = "Account that need access to connect to the cloudtrail created by this module"
   type        = string
   default     = ""
 }
@@ -74,7 +62,8 @@ variable "log_file_expiration" {
   default = 30
 }
 
-variable "debug_policy" {
-  type    = bool
-  default = true
+variable "aws_profile" {
+  type        = string
+  description = "The profile that was used to deploy this module. If the default profile / default credentials are used, do not supply this value."
+  default     = null
 }

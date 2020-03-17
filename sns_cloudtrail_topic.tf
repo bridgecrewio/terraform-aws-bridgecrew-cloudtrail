@@ -1,9 +1,10 @@
-resource "aws_sns_topic" "cloudtrail_to_bridgecrew" {
-  count = var.existing_sns_arn == null ? 1 : 0
-  name  = "${local.resource_name_prefix}-bridgecrewcws"
+resource aws_sns_topic "cloudtrail_to_bridgecrew" {
+  #checkov:skip=CKV_AWS_26:Non-sensitive topic
+  count             = var.existing_sns_arn == null ? 1 : 0
+  name              = "${local.resource_name_prefix}-bridgecrewcws"
 }
 
-data "aws_iam_policy_document" "cloudtrail_to_bridgecrew" {
+data aws_iam_policy_document "cloudtrail_to_bridgecrew" {
   count = var.existing_sns_arn == null ? 1 : 0
   statement {
     sid     = "CloudTrailPublish"
@@ -16,13 +17,11 @@ data "aws_iam_policy_document" "cloudtrail_to_bridgecrew" {
       identifiers = ["cloudtrail.amazonaws.com"]
     }
 
-    resources = [
-      "*",
-    ]
+    resources = ["*"]
   }
 }
 
-resource "aws_sns_topic_policy" "cloudtrail_to_bridgecrew" {
+resource aws_sns_topic_policy "cloudtrail_to_bridgecrew" {
   count  = var.existing_sns_arn == null ? 1 : 0
   arn    = aws_sns_topic.cloudtrail_to_bridgecrew[0].arn
   policy = data.aws_iam_policy_document.cloudtrail_to_bridgecrew[0].json

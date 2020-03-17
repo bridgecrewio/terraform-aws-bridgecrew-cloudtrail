@@ -1,66 +1,37 @@
-resource "aws_kms_key" "cloudtrail_key" {
-  count               = var.existing_kms_key_arn == null ? 1 : 0
-  description         = "KMS for Cloudtrail, shared with Lacework and Bridgecrew"
+resource aws_kms_key "cloudtrail_key" {
+  count               = var.create_cloudtrail ? 1 : 0
+  description         = "KMS for CloudTrail, shared with Bridgecrew"
   enable_key_rotation = true
   policy              = data.aws_iam_policy_document.cloudtrail_key[0].json
 }
 
-resource "aws_kms_alias" "cloudtrail_key" {
-  count         = var.existing_kms_key_arn == null ? 1 : 0
+resource aws_kms_alias "cloudtrail_key" {
+  count         = var.create_cloudtrail ? 1 : 0
   name          = "alias/${local.resource_name_prefix}-CloudtrailKey"
   target_key_id = aws_kms_key.cloudtrail_key[0].key_id
 }
 
 
-data "aws_iam_policy_document" "cloudtrail_key" {
-  count = var.existing_kms_key_arn == null ? 1 : 0
+data aws_iam_policy_document "cloudtrail_key" {
+  count = var.create_cloudtrail ? 1 : 0
   statement {
     sid = "AccountOwner"
 
-    actions = [
-      "kms:*",
-    ]
+    actions = ["kms:*"]
 
     effect = "Allow"
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${local.account_id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.caller.account_id}:root"]
     }
 
     resources = ["*"]
   }
 
   statement {
-    sid = "CloudTrailEncrypt"
-    actions = [
-      "kms:GenerateDataKey*",
-      "kms:ReEncryptFrom",
-    ]
-
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringLike"
-      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
-      values = [
-        "arn:aws:cloudtrail:*:${var.source_account_id != "" ? var.source_account_id : local.account_id}:trail/*"
-      ]
-    }
-
-    resources = ["*"]
-  }
-
-  statement {
-    sid = "CloudTrailDescribe"
-    actions = [
-      "kms:DescribeKey",
-    ]
+    sid = "CloudTrailAccess"
+    actions = ["kms:*"]
 
     effect = "Allow"
 
@@ -73,35 +44,28 @@ data "aws_iam_policy_document" "cloudtrail_key" {
   }
 
   statement {
-    sid = "BridgecrewDecrypt"
-    actions = [
-      "kms:Decrypt",
-      "kms:ReEncryptFrom",
-    ]
+    sid     = "BridgecrewDecrypt"
+    actions = ["kms:Decrypt"]
 
     effect = "Allow"
 
-    principals {
-      type        = "Service"
-      identifiers = ["cloudtrail.amazonaws.com"]
-    }
+    resources = ["*"]
 
     condition {
       test     = "StringEquals"
       variable = "kms:CallerAccount"
-      values   = [var.source_account_id != "" ? var.source_account_id : local.account_id]
+      values   = [data.aws_caller_identity.caller.account_id]
     }
 
     condition {
       test     = "StringLike"
       variable = "kms:EncryptionContext:aws:cloudtrail:arn"
-      values = [
-        "arn:aws:cloudtrail:*:${
-          var.source_account_id != "" ? var.source_account_id : local.account_id
-        }:trail/*"
-      ]
+      values   = ["arn:aws:cloudtrail:*:${data.aws_caller_identity.caller.account_id}:trail/*"]
     }
 
-    resources = ["*"]
+    principals {
+      identifiers = ["*"]
+      type        = "AWS"
+    }
   }
 }
