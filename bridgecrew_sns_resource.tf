@@ -47,4 +47,6 @@ resource null_resource "disconnect_bridgecrew" {
     when    = destroy
     working_dir = path.module
   }
+
+  depends_on = [null_resource.create_bridgecrew]
 }
