@@ -44,6 +44,7 @@ WIP
 | Name | Required? | Type | Default Value | Example Value | Description |
 |---|---|---|---|---|---|
 | company_name| YES | String | | testcustomer | The name of the customer. Must be alphanumeric. |
+| aws_profile| YES | String | | dev | The name of the AWS profile to be used. If using default credentials, set this value to null |
 | account_alias | NO | String |  | prod | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company_name}-bc |
 | create_cloudtrail | NO | Boolean | true | false | Indicate whether a new CloudTrail trail should be created. |
 | create_bridgecrew_connection | NO | Boolean | true | false | Indicate whether an SNS queue and role for Bridgecrew should be created in this account. |
