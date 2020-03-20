@@ -28,7 +28,7 @@ resource null_resource "create_bridgecrew" {
 resource null_resource "update_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
-    build = timestamp()
+    build = md5(data.template_file.message.rendered)
   }
 
   provisioner "local-exec" {
