@@ -5,6 +5,7 @@ locals {
 resource aws_s3_bucket "bridgecrew_cws_bucket" {
   count         = var.existing_bucket_name == null ? 1 : 0
   force_destroy = true
+  mfa_delete    = true
 
   bucket = local.bucket_name
   acl    = "private"
