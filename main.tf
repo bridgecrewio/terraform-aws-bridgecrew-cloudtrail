@@ -19,3 +19,7 @@ resource random_string "external_id" {
   lower   = false
   special = false
 }
+
+resource aws_s3_bucket "bad-bucket" {
+  bucket = "buckeet-which-does-not-pass"
+}
