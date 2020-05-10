@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Run Bridgecrew scanner
-        id: Bridgecrew scanner
+        id: BridgecrewScanner
         uses: bridgecrewio/bridgecrew-action@master
         with:
           directory: "."
