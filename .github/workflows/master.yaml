@@ -1,8 +1,9 @@
 name: test
 on:
-  push:
-    branches:
-    - master
+  - pull_request
+  - push:
+      branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,5 +19,4 @@ jobs:
         with:
           directory: "."
           soft-fail: "false"
-          output: "junitxml"
           api-key-variable: ${{ secrets.BC_API_KEY }}
