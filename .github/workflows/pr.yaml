@@ -9,5 +9,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Checkov Github Action
-        uses: bridgecrewio/checkov-action@v5
+      - name: Run Bridgecrew scanner
+        id: BridgecrewScanner
+        uses: bridgecrewio/bridgecrew-action@master
+        with:
+          directory: "."
+          soft-fail: "false"
+          output: "junitxml"
+          api-key-variable: ${{ secrets.BC_API_KEY }}
