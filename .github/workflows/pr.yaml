@@ -15,5 +15,5 @@ jobs:
         with:
           directory: "."
           soft-fail: "false"
-          output: "junitxml"
+          output: "cli"
           api-key-variable: ${{ secrets.BC_API_KEY }}
