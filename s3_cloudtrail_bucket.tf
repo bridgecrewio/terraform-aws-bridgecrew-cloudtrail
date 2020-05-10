@@ -3,6 +3,7 @@ locals {
 }
 
 resource aws_s3_bucket "bridgecrew_cws_bucket" {
+  #checkov:skip=CKV_AWS_52:Versioning and BC backup is enough
   count         = var.existing_bucket_name == null ? 1 : 0
   force_destroy = true
 
