@@ -34,9 +34,6 @@ This may be optimal in cases where you want an organization trail from the organ
 
 In both accounts, be sure to set the `organization_id` if this is an organization-wide trail.
 
-### Importing existing AWS CloudFormation 
-WIP
-
 ## Architecture:
 ![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
 
