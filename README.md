@@ -19,6 +19,25 @@ The module supports connecting to an existing CloudTrail trail. This requires 3 
 2. Supplying the name of the bucket where the CloudTrail logs are being saved to, as `existing_bucket_name`.
 3. Supplying the ARN of the SNS used by the trail to notify of new logs, in `existing_sns_arn`. 
 This can be configured manually on the existing trail. 
+4. If a KMS key is associated with this CloudTrail, update the key policy to allow Bridgecrew to decrypt.  For example:
+```
+        {
+          "Sid" : "Enable Bridgecrew log decryption",
+          "Effect": "Allow",
+          "Principal": {
+            "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.company_name}-bc-bridgecrewcwssarole"
+          },
+          "Action": [ "kms:Decrypt", "kms:ReEncryptFrom" ],
+          "Resource": "*",
+          "Condition": {
+            "StringEquals" : {
+              "kms:CallerAccount" : "${data.aws_caller_identity.current.account_id}" },
+              "StringLike": {
+                "kms:EncryptionContext:aws:cloudtrail:arn" : "arn:aws:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"
+              }
+            }
+        },
+```
 
 ### Creating a CloudTrail trail and other infrastructure in seperate AWS accounts
 This module supports creating a CloudTrail trail in one account, and creating the rest of the infrastructure in a seperate account.
