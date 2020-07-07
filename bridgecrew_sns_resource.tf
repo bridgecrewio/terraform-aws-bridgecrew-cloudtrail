@@ -6,7 +6,7 @@ data template_file "message" {
     bridgecrew_sns_topic = local.bridgecrew_sns_topic
     customer_name        = var.company_name
     account_id           = data.aws_caller_identity.caller.account_id
-    external_id          = random_string.external_id.result
+    external_id          = random_uuid.external_id.result
     logging_account_id   = data.aws_caller_identity.caller.account_id
     sqs_queue_url        = aws_sqs_queue.cloudtrail_queue[0].id
     role_arn             = aws_iam_role.bridgecrew_account_role[0].arn

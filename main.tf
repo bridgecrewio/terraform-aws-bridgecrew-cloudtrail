@@ -14,8 +14,4 @@ data aws_caller_identity "caller" {}
 
 data aws_region "region" {}
 
-resource random_string "external_id" {
-  length  = 6
-  lower   = false
-  special = false
-}
+resource random_uuid "external_id" {}
