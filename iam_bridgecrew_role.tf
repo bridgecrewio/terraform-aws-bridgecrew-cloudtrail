@@ -21,7 +21,7 @@ data aws_iam_policy_document "bridgecrew_account_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "sts:ExternalId"
-      values   = [random_string.external_id.result]
+      values   = [random_uuid.external_id.result]
     }
   }
 }
