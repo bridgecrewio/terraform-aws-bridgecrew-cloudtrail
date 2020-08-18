@@ -1,5 +1,5 @@
 data template_file "message" {
-  count = var.create_bridgecrew_connection ? 1 : 0
+  count    = var.create_bridgecrew_connection ? 1 : 0
   template = file("${path.module}/message.json")
   vars = {
     request_type         = "Create"
@@ -42,15 +42,15 @@ resource null_resource "update_bridgecrew" {
 resource null_resource "disconnect_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
-    profile = local.profile_str
-    region = data.aws_region.region.id
-    message = jsonencode(replace(data.template_file.message[0].rendered, "Create", "Delete"))
+    profile   = local.profile_str
+    region    = data.aws_region.region.id
+    message   = jsonencode(replace(data.template_file.message[0].rendered, "Create", "Delete"))
     sns_topic = local.bridgecrew_sns_topic
   }
 
   provisioner "local-exec" {
-    command = "aws sns ${self.triggers.profile} --region ${self.triggers.region} publish --target-arn \"${self.triggers.sns_topic}\" --message '${self.triggers.message}'"
-    when    = destroy
+    command     = "aws sns ${self.triggers.profile} --region ${self.triggers.region} publish --target-arn \"${self.triggers.sns_topic}\" --message '${self.triggers.message}'"
+    when        = destroy
     working_dir = path.module
   }
 

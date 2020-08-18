@@ -17,7 +17,7 @@ resource aws_cloudtrail "trail" {
 }
 
 resource null_resource "kms_policy_delay" {
-//  It takes a while for AWS IAM to actually give the relevant permisions
+  //  It takes a while for AWS IAM to actually give the relevant permisions
   triggers = {
     build = filemd5("${path.module}/kms_cloudtrail_key.tf")
   }

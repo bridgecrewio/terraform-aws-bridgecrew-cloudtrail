@@ -17,3 +17,37 @@ jobs:
           soft-fail: "false"
           output: "cli"
           api-key-variable: ${{ secrets.BC_API_KEY }}
+  validate-tf:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Terraform
+      uses: little-core-labs/install-terraform@v1
+    - name: setup test
+      run: |
+        mkdir test
+        cat << EOF > main.tf
+        provider "aws" {
+          region  = "us-west-2"
+          profile = "dev"
+        }
+
+        module "bc" {
+          source       = "../"
+          aws_profile  = "dev"
+          company_name = "test"
+        }
+        EOF
+    - name: terraform fmt
+      working-directory: ./test
+      run: |
+        terraform fmt -check=true
+        exit $( echo $? )
+    - name: terraform validate
+      working-directory: ./test
+      run: |
+        terraform init
+        terraform validate
