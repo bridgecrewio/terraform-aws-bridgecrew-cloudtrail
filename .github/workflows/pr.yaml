@@ -28,7 +28,6 @@ jobs:
       uses: little-core-labs/install-terraform@v1
     - name: terraform fmt
       run: |
-        ls -la
         mkdir test && cd test
         cat << EOF > main.tf
         provider "aws" {
@@ -42,23 +41,10 @@ jobs:
           company_name = "test"
         }
         EOF
-        ls -la
         terraform fmt -check=true
         exit $( echo $? )
     - name: terraform validate
+      working-directory: ./test
       run: |
-        mkdir test && cd test
-        cat << EOF > main.tf
-        provider "aws" {
-          region  = "us-west-2"
-          profile = "dev"
-        }
-
-        module "bc" {
-          source       = "../"
-          aws_profile  = "dev"
-          company_name = "test"
-        }
-        EOF
         terraform init
         terraform validate
