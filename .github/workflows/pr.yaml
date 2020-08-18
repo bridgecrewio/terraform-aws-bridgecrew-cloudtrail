@@ -1,7 +1,7 @@
 name: pr-test
 on: pull_request
 jobs:
-  build:
+  security:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
       uses: little-core-labs/install-terraform@v1
     - name: setup test
       run: |
-        mkdir test
+        mkdir test && cd test
         cat << EOF > main.tf
         provider "aws" {
           region  = "us-west-2"
@@ -41,13 +41,22 @@ jobs:
           company_name = "test"
         }
         EOF
-    - name: terraform fmt
-      working-directory: ./test
-      run: |
         terraform fmt -check=true
         exit $( echo $? )
     - name: terraform validate
-      working-directory: ./test
       run: |
+        mkdir test && cd test
+        cat << EOF > main.tf
+        provider "aws" {
+          region  = "us-west-2"
+          profile = "dev"
+        }
+
+        module "bc" {
+          source       = "../"
+          aws_profile  = "dev"
+          company_name = "test"
+        }
+        EOF
         terraform init
         terraform validate
