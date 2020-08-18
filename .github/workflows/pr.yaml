@@ -26,8 +26,9 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install Terraform
       uses: little-core-labs/install-terraform@v1
-    - name: setup test
+    - name: terraform fmt
       run: |
+        ls -la
         mkdir test && cd test
         cat << EOF > main.tf
         provider "aws" {
@@ -41,6 +42,7 @@ jobs:
           company_name = "test"
         }
         EOF
+        ls -la
         terraform fmt -check=true
         exit $( echo $? )
     - name: terraform validate
