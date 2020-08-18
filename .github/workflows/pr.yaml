@@ -17,3 +17,18 @@ jobs:
           soft-fail: "false"
           output: "cli"
           api-key-variable: ${{ secrets.BC_API_KEY }}
+  validate-tf:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Terraform
+      uses: little-core-labs/install-terraform@v1
+    - name: terraform fmt
+      run: |
+        terraform fmt -check=true
+        exit $( echo $? )
+    - name: terraform validate
+      run: terraform validate
