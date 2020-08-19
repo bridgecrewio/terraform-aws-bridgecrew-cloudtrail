@@ -30,7 +30,7 @@ data aws_iam_policy_document "cloudtrail_key" {
   }
 
   statement {
-    sid = "CloudTrailAccess"
+    sid     = "CloudTrailAccess"
     actions = ["kms:*"]
 
     effect = "Allow"

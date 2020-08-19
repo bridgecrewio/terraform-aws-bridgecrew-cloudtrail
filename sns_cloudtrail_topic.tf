@@ -1,7 +1,7 @@
 resource aws_sns_topic "cloudtrail_to_bridgecrew" {
   #checkov:skip=CKV_AWS_26:Non-sensitive topic
-  count             = var.existing_sns_arn == null ? 1 : 0
-  name              = "${local.resource_name_prefix}-bridgecrewcws"
+  count = var.existing_sns_arn == null ? 1 : 0
+  name  = "${local.resource_name_prefix}-bridgecrewcws"
 }
 
 data aws_iam_policy_document "cloudtrail_to_bridgecrew" {
