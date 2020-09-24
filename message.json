@@ -10,7 +10,7 @@
     "AWSAccountId": "${account_id}",
     "ExternalId": "${external_id}",
     "SecurityAccountId": "${logging_account_id}",
-    "TemplateVersion": "1.4",
+    "TemplateVersion": "1.5",
     "Type": "AWS_CT_CFG",
     "SqsQueueUrl": "${sqs_queue_url}",
     "CrossAccountRoleArn": "${role_arn}",

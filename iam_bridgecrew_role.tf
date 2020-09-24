@@ -29,13 +29,7 @@ data aws_iam_policy_document "bridgecrew_account_assume_role" {
 resource aws_iam_role_policy_attachment "bridgecrew_security_audit" {
   count      = var.create_bridgecrew_connection ? 1 : 0
   role       = aws_iam_role.bridgecrew_account_role[0].name
-  policy_arn = "arn:aws:iam::aws:policy/SecurityAudit"
-}
-
-resource aws_iam_role_policy_attachment "bridgecrew_cloud_formation" {
-  count      = var.create_bridgecrew_connection ? 1 : 0
-  role       = aws_iam_role.bridgecrew_account_role[0].name
-  policy_arn = "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
 resource aws_iam_role_policy "bridgecrew_cws_policy" {
