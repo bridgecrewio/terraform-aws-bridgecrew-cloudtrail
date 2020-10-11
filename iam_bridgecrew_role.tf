@@ -26,6 +26,30 @@ data aws_iam_policy_document "bridgecrew_account_assume_role" {
   }
 }
 
+data aws_iam_policy_document "bridgecrew_describe_policy_document" {
+  statement {
+    sid       = "AllowDescribingResources"
+    effect    = "Allow"
+    resources = ["*"]
+    actions = [
+      "dynamodb:ListTagsOfResource",
+      "Lambda:Get*",
+      "s3:ListBucket",
+      "sns:ListTagsForResource",
+      "ecr:GetLifecyclePolicy",
+      "es:ListTags",
+      "sns:GetSubscriptionAttributes"
+    ]
+  }
+}
+
+resource aws_iam_role_policy "bridgecrew_describe_policy" {
+  count  = var.create_bridgecrew_connection ? 1 : 0
+  policy = data.aws_iam_policy_document.bridgecrew_describe_policy_document
+  name   = "BridgecrewDescribePolicy"
+  role   = aws_iam_role.bridgecrew_account_role[0].id
+}
+
 resource aws_iam_role_policy_attachment "bridgecrew_security_audit" {
   count      = var.create_bridgecrew_connection ? 1 : 0
   role       = aws_iam_role.bridgecrew_account_role[0].name
