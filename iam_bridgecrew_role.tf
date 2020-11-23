@@ -45,7 +45,7 @@ data aws_iam_policy_document "bridgecrew_describe_policy_document" {
 
 resource aws_iam_role_policy "bridgecrew_describe_policy" {
   count  = var.create_bridgecrew_connection ? 1 : 0
-  policy = data.aws_iam_policy_document.bridgecrew_describe_policy_document
+  policy = data.aws_iam_policy_document.bridgecrew_describe_policy_document.json
   name   = "BridgecrewDescribePolicy"
   role   = aws_iam_role.bridgecrew_account_role[0].id
 }
