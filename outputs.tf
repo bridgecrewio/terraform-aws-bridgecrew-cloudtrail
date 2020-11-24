@@ -45,5 +45,5 @@ output "deployment_region" {
 
 output "template_version" {
   description = "Bridgecrew.io template version."
-  value       = "1.4"
+  value       = "1.5"
 }
