@@ -1,10 +1,11 @@
 # Terraform Bridgecrew Cloudtrail Integration
 
+[![Build Status](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/workflows/Verify%20and%20Bump/badge.svg?branch=main)](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail)
+[![Latest Release](https://img.shields.io/github/release/bridgecrewio/terraform-aws-bridgecrew-cloudtrail.svg)](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/releases/latest)
 [![Maintained by Bridgecrew.io](https://img.shields.io/badge/maintained%20by-bridgecrew.io-blueviolet)](https://bridgecrew.io)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/bridgecrewio/terraform-aws-bridgecrew-cloudtrail.svg?label=latest)](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/releases/latest)
 ![Terraform Version](https://img.shields.io/badge/tf-%3E%3D0.12.0-blue.svg)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=bridgecrewio%2Fterraform-aws-bridgecrew-cloudtrail&benchmark=CIS+AWS+V1.2)
-[![CircleCI](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-cloudtrail.svg?style=svg)](https://circleci.com/gh/bridgecrewio/terraform-aws-bridgecrew-cloudtrail)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 ## Installation Options
@@ -50,7 +51,7 @@ This can be configured manually on the existing trail.
         },
 ```
 
-### Creating a CloudTrail trail and other infrastructure in seperate AWS accounts
+### Creating a Cloudtrail and other infrastructure in seperate AWS accounts
 
 This module supports creating a CloudTrail trail in one account, and creating the rest of the infrastructure in a seperate account.
 This may be optimal in cases where you want an organization trail from the organization master, but you want it to send logs to a bucket in a logs account.
@@ -70,6 +71,7 @@ In both accounts, be sure to set the `organization_id` if this is an organizatio
 ## Architecture
 
 ![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -118,6 +120,7 @@ No requirements.
 | template\_version | Bridgecrew.io template version. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
 ## Related Projects
 
 Check out these related projects.
@@ -138,7 +141,7 @@ Please use the [issue tracker](https://github.com/bridgecrewio/terraform-aws-bri
 
 ## Copyrights
 
-Copyright � 2021 Bridgecrew
+Copyright © 2021 Bridgecrew
 
 ## License
 
@@ -170,7 +173,7 @@ under the License.
 [jameswoolfenden_homepage]: https://github.com/jameswoolfenden
 [jameswoolfenden_avatar]: https://github.com/jameswoolfenden.png?size=150
 [github]: https://github.com/bridgecrewio
-https://www.linkedin.com/company/bridgecrew/
+[linkedin]: https://www.linkedin.com/company/bridgecrew/
 [twitter]: https://twitter.com/bridgecrew
 [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-activemq&url=https://github.com/JamesWoolfenden/terraform-aws-activemq
 [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-activemq&url=https://github.com/JamesWoolfenden/terraform-aws-activemq
