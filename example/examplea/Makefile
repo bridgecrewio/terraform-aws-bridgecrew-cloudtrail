@@ -42,7 +42,7 @@ docs:
 
 valid:
 	terraform fmt
-	checkov -d . --external-checks-dir ../../checkov
+	checkov -d . --external-checks-dir ../../checkov --output cli
 
 conftest: plan convert
 	conftest test ./tfplan.json -p ../../policies
