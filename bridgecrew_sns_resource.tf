@@ -1,4 +1,4 @@
-data template_file "message" {
+data "template_file" "message" {
   count    = var.create_bridgecrew_connection ? 1 : 0
   template = file("${path.module}/message.json")
   vars = {
@@ -14,7 +14,7 @@ data template_file "message" {
   }
 }
 
-resource null_resource "create_bridgecrew" {
+resource "null_resource" "create_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
 
   provisioner "local-exec" {
@@ -25,7 +25,7 @@ resource null_resource "create_bridgecrew" {
   depends_on = [aws_iam_role_policy.bridgecrew_cws_policy, aws_sqs_queue.cloudtrail_queue, aws_s3_bucket.bridgecrew_cws_bucket]
 }
 
-resource null_resource "update_bridgecrew" {
+resource "null_resource" "update_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
     build = md5(data.template_file.message[0].rendered)
@@ -39,7 +39,7 @@ resource null_resource "update_bridgecrew" {
   depends_on = [null_resource.create_bridgecrew]
 }
 
-resource null_resource "disconnect_bridgecrew" {
+resource "null_resource" "disconnect_bridgecrew" {
   count = var.create_bridgecrew_connection ? 1 : 0
   triggers = {
     profile   = local.profile_str

@@ -2,8 +2,9 @@ locals {
   bucket_name = "${local.resource_name_prefix}-bridgecrewcws-${data.aws_caller_identity.caller.account_id}"
 }
 
-resource aws_s3_bucket "bridgecrew_cws_bucket" {
+resource "aws_s3_bucket" "bridgecrew_cws_bucket" {
   #checkov:skip=CKV_AWS_52:Versioning and BC backup is enough
+  #checkov:skip=CKV_AWS_18:Access logging is to much
   count         = var.existing_bucket_name == null ? 1 : 0
   force_destroy = true
 
@@ -50,7 +51,7 @@ resource aws_s3_bucket "bridgecrew_cws_bucket" {
   }
 }
 
-resource aws_s3_bucket_public_access_block "bridgecrew_cws_bucket" {
+resource "aws_s3_bucket_public_access_block" "bridgecrew_cws_bucket" {
   count  = var.existing_bucket_name == null ? 1 : 0
   bucket = aws_s3_bucket.bridgecrew_cws_bucket[0].id
 
@@ -60,7 +61,7 @@ resource aws_s3_bucket_public_access_block "bridgecrew_cws_bucket" {
   restrict_public_buckets = true
 }
 
-data aws_iam_policy_document "bridgecrew_cws_bucket_policy_document" {
+data "aws_iam_policy_document" "bridgecrew_cws_bucket_policy_document" {
   count = var.existing_bucket_name == null ? 1 : 0
   statement {
     sid       = "CloudTrailAclCheck"
@@ -146,7 +147,7 @@ data aws_iam_policy_document "bridgecrew_cws_bucket_policy_document" {
   }
 }
 
-resource aws_s3_bucket_policy "bridgecrew_cws_bucket_policy" {
+resource "aws_s3_bucket_policy" "bridgecrew_cws_bucket_policy" {
   count  = var.existing_bucket_name == null ? 1 : 0
   bucket = aws_s3_bucket.bridgecrew_cws_bucket[0].id
   policy = data.aws_iam_policy_document.bridgecrew_cws_bucket_policy_document[0].json

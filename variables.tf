@@ -66,3 +66,7 @@ variable "aws_profile" {
   type        = string
   description = "The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null."
 }
+
+variable "common_tags" {
+  type = map(any)
+}

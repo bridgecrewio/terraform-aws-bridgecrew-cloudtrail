@@ -1,3 +1,9 @@
+terraform.tfstate
+*.backup
+.terraform/
+.terraform.lock.hcl
+.DS_Store
 .idea
-.terraform
+*.orig
 tests
+.terraform.tfstate.lock.info

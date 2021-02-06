@@ -1,3 +1,4 @@
+---
 name: pr-test
 on: pull_request
 jobs:
@@ -19,32 +20,18 @@ jobs:
           api-key-variable: ${{ secrets.BC_API_KEY }}
   validate-tf:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
-    - uses: actions/checkout@v1
-    - name: Install Terraform
-      uses: little-core-labs/install-terraform@v1
-    - name: terraform fmt
-      run: |
-        mkdir test && cd test
-        cat << EOF > main.tf
-        provider "aws" {
-          region  = "us-west-2"
-          profile = "dev"
-        }
-
-        module "bc" {
-          source       = "../"
-          aws_profile  = "dev"
-          company_name = "test"
-        }
-        EOF
-        terraform fmt -check=true
-        exit $( echo $? )
-    - name: terraform validate
-      working-directory: ./test
-      run: |
-        terraform init
-        terraform validate
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: "Terraform Init"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.5
+          tf_actions_subcommand: "init"
+          tf_actions_working_dir: "example/examplea"
+      - name: "Terraform Validate"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.5
+          tf_actions_subcommand: "validate"
+          tf_actions_working_dir: "example/examplea"

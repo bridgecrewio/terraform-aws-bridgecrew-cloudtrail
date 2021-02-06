@@ -10,8 +10,8 @@ locals {
   sns_topic = var.existing_sns_arn == null ? aws_sns_topic.cloudtrail_to_bridgecrew[0].arn : var.existing_sns_arn
 }
 
-data aws_caller_identity "caller" {}
+data "aws_caller_identity" "caller" {}
 
-data aws_region "region" {}
+data "aws_region" "region" {}
 
-resource random_uuid "external_id" {}
+resource "random_uuid" "external_id" {}
