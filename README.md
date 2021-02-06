@@ -141,7 +141,7 @@ Please use the [issue tracker](https://github.com/bridgecrewio/terraform-aws-bri
 
 ## Copyrights
 
-Copyright © 2021 Bridgecrew
+Copyright © 2020-2021 Bridgecrew
 
 ## License
 
