@@ -23,10 +23,10 @@ The module supports connecting to an existing CloudTrail trail. This requires 3 
 
 1. Setting `create_cloudtrail` to false.
 2. Supplying the name of the bucket where the CloudTrail logs are being saved to, as `existing_bucket_name`.
-3. Supplying the ARN of the SNS used by the trail to notify of new logs, in `existing_sns_arn`. 
-This can be configured manually on the existing trail. 
+3. Supplying the ARN of the SNS used by the trail to notify of new logs, in `existing_sns_arn`.
+This can be configured manually on the existing trail.
 4. If a KMS key is associated with this CloudTrail, update the key policy to allow Bridgecrew to decrypt.  For example:
-  
+
 ```json
         {
           "Sid" : "Enable Bridgecrew log decryption",
@@ -82,30 +82,51 @@ module "cloudtrail" {
 ![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-## Variables
+## Requirements
 
-| Name | Required? | Type | Default Value | Example Value | Description |
-|---|---|---|---|---|---|
-| company_name| YES | String | | testcustomer | The name of the customer. Must be alphanumeric. |
-| aws_profile| YES | String | | dev | The name of the AWS profile to be used. If using default credentials, set this value to null |
-| account_alias | NO | String |  | prod | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company_name}-bc |
-| create_cloudtrail | NO | Boolean | true | false | Indicate whether a new CloudTrail trail should be created. |
-| create_bridgecrew_connection | NO | Boolean | true | false | Indicate whether an SNS queue and role for Bridgecrew should be created in this account. |
-| log_file_prefix | NO | String |  | cloudtrail | The prefix which will be given to all the log files saved to the bucket. |
-| existing_sns_arn | NO | String | | arn:aws:sns:us-east-1:090772183824:test-bc-bridgecrewcws | When connecting to an existing SNS topic, please supply the trail's SNS ARN. |
-| existing_bucket_name | NO | String | | test-bc-bridgecrewcws | When connecting to an existing CloudTrail bucket, please supply the bucket name (NOT ARN). |
-| existing_kms_key_arn | NO | String | | arn:aws:kms:us-east-1:090772183824:key/c79ebdc6-bb68-4e83-805f-be5304c10f1e | When using an existing KMS Key (to be accessed by Bridgecrew), specify the existing KMS key ARN. |
-| security_account_id | NO | String | "" | 12345678900 | When connecting to a centralized CloudTrail bucket setup, please supply the ID of the AWS account that hosts the CloudTrail log bucket. We must be deployed in that central logging account beforehand for the integration to work correctly. |
-| source_account_id | NO | String | | 090772183824 | When cloudtrail in another account is connecting to buckets and sns topics in this account, specify the account ID of that account. |
-| organization_id | NO | String | | o-sv720a91a0 | When creating an organization-wide cloudtrail from the organization master. |
-| logs_bucket_id | NO | String | | cloudtrail-logs-bucket | Bucket to place access logs from the cloudtrail bucket (defaults to no logs) |
-| logs_file_expiration | NO | Number | 30 | 90 | How long to keep Cloudtrail logs in the bucket. |
-| debug_policy | NO | Bool | true | false | Whether to give Bridgecrew read-only debugging access. |
+No requirements.
 
-## Outuput
-| Name |  Example Value | Description |
-|------|----------------|-------------|
-| stack_id | arn:aws:cloudformation:us-east-1:090772183824:stack/test-bridgecrew/daeed550-fa25-11e9-b98a-0e23fbf2c85e | The identifier of the stack that was created | 
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | n/a |
+| null | n/a |
+| random | n/a |
+| template | n/a |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| account\_alias | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company\_name}-bc | `string` | `""` | no |
+| aws\_profile | The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null. | `string` | n/a | yes |
+| company\_name | The name of the company the integration is for. Must be alphanumeric. | `string` | n/a | yes |
+| create\_bridgecrew\_connection | Indicate whether the SQS queue and IAM policies for Bridgecrew need to be set up.  This may be false if you are connecting a cloudtrail in a new account to an existing bucket. | `bool` | `true` | no |
+| create\_cloudtrail | Indicate whether a new CloudTrail trail should be created. If not - existing\_sns\_arn and existing\_bucket\_name are required parameters. | `bool` | `true` | no |
+| existing\_bucket\_name | When connecting to an existing CloudTrail trail, please supply the existing trail's bucket name (NOT ARN). | `string` | `null` | no |
+| existing\_sns\_arn | When connecting to an existing CloudTrail trail, please supply the existing trail's SNS ARN. | `string` | `null` | no |
+| log\_file\_expiration | n/a | `number` | `30` | no |
+| log\_file\_prefix | The prefix which will be given to all the log files saved to the bucket. | `string` | `""` | no |
+| logs\_bucket\_id | Bucket to place access logs from the cloudtrail bucket | `string` | `null` | no |
+| organization\_id | ID or the organization (for org-wide cloudtrails) | `string` | `""` | no |
+| security\_account\_id | When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account | `string` | `""` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| customer\_name | The customer name as defined on Bridgecrew signup |
+| deployment\_region | The region that the customer ran this module |
+| kms\_key\_id | The KMS key cloudtrail will use for encryption |
+| role\_arn | The cross-account access role ARN for Bridgecrew |
+| s3\_bucket\_name | The s3 bucket name for cloudtrail. |
+| s3\_key\_prefix | The s3 log prefix for cloudtrail, inside the bucket. |
+| sns\_topic\_name | The sns topic cloudtrail will push to. |
+| sqs\_queue\_arn | The SQS queue ARN to share with Bridgecrew for CloudTrail integration |
+| sqs\_queue\_url | The SQS queue URL to share with Bridgecrew for CloudTrail integration |
+| template\_version | Bridgecrew.io template version. |
+
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Related Projects
 
