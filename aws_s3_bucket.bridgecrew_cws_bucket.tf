@@ -1,6 +1,3 @@
-locals {
-  bucket_name = "${local.resource_name_prefix}-bridgecrewcws-${data.aws_caller_identity.caller.account_id}"
-}
 
 resource aws_s3_bucket "bridgecrew_cws_bucket" {
   #checkov:skip=CKV_AWS_52:Versioning and BC backup is enough
