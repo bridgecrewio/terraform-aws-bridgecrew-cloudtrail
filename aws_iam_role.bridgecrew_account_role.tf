@@ -1,10 +1,10 @@
-resource aws_iam_role "bridgecrew_account_role" {
+resource "aws_iam_role" "bridgecrew_account_role" {
   count              = var.create_bridgecrew_connection ? 1 : 0
   name               = "${local.resource_name_prefix}-bridgecrewcwssarole"
   assume_role_policy = data.aws_iam_policy_document.bridgecrew_account_assume_role[0].json
 }
 
-data aws_iam_policy_document "bridgecrew_account_assume_role" {
+data "aws_iam_policy_document" "bridgecrew_account_assume_role" {
   count = var.create_bridgecrew_connection ? 1 : 0
   statement {
     actions = [
@@ -15,7 +15,7 @@ data aws_iam_policy_document "bridgecrew_account_assume_role" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${local.bridgecrew_account_id}:root"]
+      identifiers = ["arn:aws:iam::${var.bridgecrew_account_id}:root"]
     }
 
     condition {
@@ -26,7 +26,7 @@ data aws_iam_policy_document "bridgecrew_account_assume_role" {
   }
 }
 
-data aws_iam_policy_document "bridgecrew_describe_policy_document" {
+data "aws_iam_policy_document" "bridgecrew_describe_policy_document" {
   statement {
     sid       = "AllowDescribingResources"
     effect    = "Allow"
@@ -43,27 +43,27 @@ data aws_iam_policy_document "bridgecrew_describe_policy_document" {
   }
 }
 
-resource aws_iam_role_policy "bridgecrew_describe_policy" {
+resource "aws_iam_role_policy" "bridgecrew_describe_policy" {
   count  = var.create_bridgecrew_connection ? 1 : 0
   policy = data.aws_iam_policy_document.bridgecrew_describe_policy_document.json
   name   = "BridgecrewDescribePolicy"
   role   = aws_iam_role.bridgecrew_account_role[0].id
 }
 
-resource aws_iam_role_policy_attachment "bridgecrew_security_audit" {
+resource "aws_iam_role_policy_attachment" "bridgecrew_security_audit" {
   count      = var.create_bridgecrew_connection ? 1 : 0
   role       = aws_iam_role.bridgecrew_account_role[0].name
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
-resource aws_iam_role_policy "bridgecrew_cws_policy" {
+resource "aws_iam_role_policy" "bridgecrew_cws_policy" {
   count  = var.create_bridgecrew_connection ? 1 : 0
   name   = "bridgecrew_cws_policy"
   policy = data.aws_iam_policy_document.bridgecrew_cws_policy[0].json
   role   = aws_iam_role.bridgecrew_account_role[0].name
 }
 
-data aws_iam_policy_document "bridgecrew_cws_policy" {
+data "aws_iam_policy_document" "bridgecrew_cws_policy" {
   count = var.create_bridgecrew_connection ? 1 : 0
   statement {
     sid = "ConsumeNotifications"

@@ -46,9 +46,9 @@ This can be configured manually on the existing trail.
         },
 ```
 
-### Creating a CloudTrail trail and other infrastructure in seperate AWS accounts
+### Creating a CloudTrail trail and other infrastructure in separate AWS accounts
 
-This module supports creating a CloudTrail trail in one account, and creating the rest of the infrastructure in a seperate account.
+This module supports creating a CloudTrail trail in one account, and creating the rest of the infrastructure in a separate account.
 This may be optimal in cases where you want an organization trail from the organization master, but you want it to send logs to a bucket in a logs account.
 
 #### In the bucket destination account
@@ -77,6 +77,12 @@ module "cloudtrail" {
 }
 ```
 
+Set your **api_token** as an environmental variable not in your code:
+
+```bash
+export TF_VAR_api_token= "xxxxxx-xxxxx-xxxx-xxxxxx"
+```
+
 ## Architecture
 
 ![Architecture](https://github.com/bridgecrewio/terraform-aws-bridgecrew-cloudtrail/blob/master/docs/CustomerCloudFormation.png?raw=true)
@@ -100,7 +106,9 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | account\_alias | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company\_name}-bc | `string` | `""` | no |
+| api\_token | This is your Bridgecrew platform Api token Set as and Environment variable TF\_VAR\_api\_token | `string` | n/a | yes |
 | aws\_profile | The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null. | `string` | n/a | yes |
+| bridgecrew\_account\_id | The Account number of Bridgecrew. Internal use only | `string` | `"890234264427"` | no |
 | company\_name | The name of the company the integration is for. Must be alphanumeric. | `string` | n/a | yes |
 | create\_bridgecrew\_connection | Indicate whether the SQS queue and IAM policies for Bridgecrew need to be set up.  This may be false if you are connecting a cloudtrail in a new account to an existing bucket. | `bool` | `true` | no |
 | create\_cloudtrail | Indicate whether a new CloudTrail trail should be created. If not - existing\_sns\_arn and existing\_bucket\_name are required parameters. | `bool` | `true` | no |
@@ -111,6 +119,7 @@ No requirements.
 | logs\_bucket\_id | Bucket to place access logs from the cloudtrail bucket | `string` | `null` | no |
 | organization\_id | ID or the organization (for org-wide cloudtrails) | `string` | `""` | no |
 | security\_account\_id | When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account | `string` | `""` | no |
+| topic\_name | The SNS topic name for Bridgecrew integration. Internal use only | `string` | `"handle-customer-actions"` | no |
 
 ## Outputs
 
