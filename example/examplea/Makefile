@@ -41,7 +41,7 @@ docs:
 	terraform-docs md . > README.md
 
 valid:
-	terraform fmt
+	terraform fmt -recursive
 	checkov -d .
 
 target:
