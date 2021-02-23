@@ -181,11 +181,3 @@ software distributed under the License is distributed on an
 KIND, either express or implied. See the License for the
 specific language governing permissions and limitations
 under the License.
-[github]: https://github.com/bridgecrewio
-[linkedin]: https://www.linkedin.com/in/bridgecrew/
-[twitter]: https://twitter.com/bridgecrew
-[share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-bridgecrew-read-only/&url=https://github.com/bridgecrewio/terraform-aws-bridgecrew-read-only/
-[share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-bridgecrew-read-only/&url=https://github.com/bridgecrewio/terraform-aws-bridgecrew-read-only/
-[share_reddit]: https://reddit.com/submit/?url=https://github.com/bridgecrewio/terraform-aws-bridgecrew-read-only/
-[share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/bridgecrewio/terraform-aws-bridgecrew-read-only/
-[share_email]: mailto:?subject=terraform-aws-bridgecrew-read-only/&body=https://github.com/bridgecrewio/terraform-aws-bridgecrew-read-only/
