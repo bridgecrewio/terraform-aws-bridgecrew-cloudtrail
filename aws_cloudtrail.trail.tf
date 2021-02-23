@@ -1,4 +1,4 @@
-resource aws_cloudtrail "trail" {
+resource "aws_cloudtrail" "trail" {
   count          = var.create_cloudtrail ? 1 : 0
   name           = "${local.resource_name_prefix}-${data.aws_caller_identity.caller.account_id}-bridgecrewcws"
   s3_bucket_name = local.s3_bucket
@@ -16,10 +16,10 @@ resource aws_cloudtrail "trail" {
   depends_on = [aws_s3_bucket_policy.bridgecrew_cws_bucket_policy, null_resource.kms_policy_delay]
 }
 
-resource null_resource "kms_policy_delay" {
+resource "null_resource" "kms_policy_delay" {
   //  It takes a while for AWS IAM to actually give the relevant permisions
   triggers = {
-    build = filemd5("${path.module}/kms_cloudtrail_key.tf")
+    build = filemd5("${path.module}/aws_kms_key.cloudtrail_key.tf")
   }
 
   provisioner "local-exec" {
@@ -28,4 +28,3 @@ resource null_resource "kms_policy_delay" {
 
   depends_on = [aws_kms_key.cloudtrail_key]
 }
-

@@ -66,3 +66,20 @@ variable "aws_profile" {
   type        = string
   description = "The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null."
 }
+
+variable "api_token" {
+  type        = string
+  description = "This is your Bridgecrew platform Api token Set as and Environment variable TF_VAR_api_token"
+}
+
+variable "bridgecrew_account_id" {
+  type        = string
+  description = "The Account number of Bridgecrew. Internal use only"
+  default     = "890234264427"
+}
+
+variable "topic_name" {
+  type        = string
+  description = "The SNS topic name for Bridgecrew integration. Internal use only"
+  default     = "handle-customer-actions"
+}
