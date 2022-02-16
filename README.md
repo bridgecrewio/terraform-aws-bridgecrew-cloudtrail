@@ -96,46 +96,88 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
-| null | n/a |
-| random | n/a |
-| template | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_template"></a> [template](#provider\_template) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_cloudtrail.trail](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudtrail) | resource |
+| [aws_iam_role.bridgecrew_account_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.bridgecrew_cws_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.bridgecrew_describe_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachment.bridgecrew_security_audit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_kms_alias.cloudtrail_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
+| [aws_kms_key.cloudtrail_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_s3_bucket.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_acl.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl) | resource |
+| [aws_s3_bucket_lifecycle_configuration.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_logging.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_logging) | resource |
+| [aws_s3_bucket_policy.bridgecrew_cws_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
+| [aws_s3_bucket_public_access_block.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_versioning.bridgecrew_cws_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_sns_topic.cloudtrail_to_bridgecrew](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sns_topic_policy.cloudtrail_to_bridgecrew](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_policy) | resource |
+| [aws_sns_topic_subscription.cloudtrail_queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
+| [aws_sqs_queue.cloudtrail_queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
+| [null_resource.create_bridgecrew](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.disconnect_bridgecrew](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.kms_policy_delay](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.update_bridgecrew](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [random_uuid.external_id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
+| [aws_caller_identity.caller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.bridgecrew_account_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.bridgecrew_cws_bucket_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.bridgecrew_cws_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.bridgecrew_describe_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.cloudtrail_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.cloudtrail_queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.cloudtrail_to_bridgecrew](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.region](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [template_file.message](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| account\_alias | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company\_name}-bc | `string` | `""` | no |
-| api\_token | This is your Bridgecrew platform Api token Set as and Environment variable TF\_VAR\_api\_token | `string` | n/a | yes |
-| aws\_profile | The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null. | `string` | n/a | yes |
-| bridgecrew\_account\_id | The Account number of Bridgecrew. Internal use only | `string` | `"890234264427"` | no |
-| company\_name | The name of the company the integration is for. Must be alphanumeric. | `string` | n/a | yes |
-| create\_bridgecrew\_connection | Indicate whether the SQS queue and IAM policies for Bridgecrew need to be set up.  This may be false if you are connecting a cloudtrail in a new account to an existing bucket. | `bool` | `true` | no |
-| create\_cloudtrail | Indicate whether a new CloudTrail trail should be created. If not - existing\_sns\_arn and existing\_bucket\_name are required parameters. | `bool` | `true` | no |
-| existing\_bucket\_name | When connecting to an existing CloudTrail trail, please supply the existing trail's bucket name (NOT ARN). | `string` | `null` | no |
-| existing\_sns\_arn | When connecting to an existing CloudTrail trail, please supply the existing trail's SNS ARN. | `string` | `null` | no |
-| log\_file\_expiration | n/a | `number` | `30` | no |
-| log\_file\_prefix | The prefix which will be given to all the log files saved to the bucket. | `string` | `""` | no |
-| logs\_bucket\_id | Bucket to place access logs from the cloudtrail bucket | `string` | `null` | no |
-| organization\_id | ID or the organization (for org-wide cloudtrails) | `string` | `""` | no |
-| security\_account\_id | When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account | `string` | `""` | no |
-| topic\_name | The SNS topic name for Bridgecrew integration. Internal use only | `string` | `"handle-customer-actions"` | no |
+| <a name="input_account_alias"></a> [account\_alias](#input\_account\_alias) | The alias of the account the CF is deployed in. This will be prepended to all the resources in the stack. Default is {company\_name}-bc | `string` | `""` | no |
+| <a name="input_api_token"></a> [api\_token](#input\_api\_token) | This is your Bridgecrew platform Api token Set as and Environment variable TF\_VAR\_api\_token | `string` | n/a | yes |
+| <a name="input_aws_profile"></a> [aws\_profile](#input\_aws\_profile) | The profile that was used to deploy this module. If the default profile / default credentials are used, set this value to null. | `string` | n/a | yes |
+| <a name="input_bridgecrew_account_id"></a> [bridgecrew\_account\_id](#input\_bridgecrew\_account\_id) | The Account number of Bridgecrew. Internal use only | `string` | `"890234264427"` | no |
+| <a name="input_company_name"></a> [company\_name](#input\_company\_name) | The name of the company the integration is for. Must be alphanumeric. | `string` | n/a | yes |
+| <a name="input_create_bridgecrew_connection"></a> [create\_bridgecrew\_connection](#input\_create\_bridgecrew\_connection) | Indicate whether the SQS queue and IAM policies for Bridgecrew need to be set up.  This may be false if you are connecting a cloudtrail in a new account to an existing bucket. | `bool` | `true` | no |
+| <a name="input_create_cloudtrail"></a> [create\_cloudtrail](#input\_create\_cloudtrail) | Indicate whether a new CloudTrail trail should be created. If not - existing\_sns\_arn and existing\_bucket\_name are required parameters. | `bool` | `true` | no |
+| <a name="input_existing_bucket_name"></a> [existing\_bucket\_name](#input\_existing\_bucket\_name) | When connecting to an existing CloudTrail trail, please supply the existing trail's bucket name (NOT ARN). | `string` | `null` | no |
+| <a name="input_existing_sns_arn"></a> [existing\_sns\_arn](#input\_existing\_sns\_arn) | When connecting to an existing CloudTrail trail, please supply the existing trail's SNS ARN. | `string` | `null` | no |
+| <a name="input_log_file_expiration"></a> [log\_file\_expiration](#input\_log\_file\_expiration) | n/a | `number` | `30` | no |
+| <a name="input_log_file_prefix"></a> [log\_file\_prefix](#input\_log\_file\_prefix) | The prefix which will be given to all the log files saved to the bucket. | `string` | `""` | no |
+| <a name="input_logs_bucket_id"></a> [logs\_bucket\_id](#input\_logs\_bucket\_id) | Bucket to place access logs from the cloudtrail bucket | `string` | `null` | no |
+| <a name="input_organization_id"></a> [organization\_id](#input\_organization\_id) | ID or the organization (for org-wide cloudtrails) | `string` | `""` | no |
+| <a name="input_security_account_id"></a> [security\_account\_id](#input\_security\_account\_id) | When connecting to an existing CloudTrail trail, which puts its logs in a bucket which is in **another** account | `string` | `""` | no |
+| <a name="input_topic_name"></a> [topic\_name](#input\_topic\_name) | The SNS topic name for Bridgecrew integration. Internal use only | `string` | `"handle-customer-actions"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| customer\_name | The customer name as defined on Bridgecrew signup |
-| deployment\_region | The region that the customer ran this module |
-| kms\_key\_id | The KMS key cloudtrail will use for encryption |
-| role\_arn | The cross-account access role ARN for Bridgecrew |
-| s3\_bucket\_name | The s3 bucket name for cloudtrail. |
-| s3\_key\_prefix | The s3 log prefix for cloudtrail, inside the bucket. |
-| sns\_topic\_name | The sns topic cloudtrail will push to. |
-| sqs\_queue\_arn | The SQS queue ARN to share with Bridgecrew for CloudTrail integration |
-| sqs\_queue\_url | The SQS queue URL to share with Bridgecrew for CloudTrail integration |
-| template\_version | Bridgecrew.io template version. |
-
+| <a name="output_customer_name"></a> [customer\_name](#output\_customer\_name) | The customer name as defined on Bridgecrew signup |
+| <a name="output_deployment_region"></a> [deployment\_region](#output\_deployment\_region) | The region that the customer ran this module |
+| <a name="output_kms_key_id"></a> [kms\_key\_id](#output\_kms\_key\_id) | The KMS key cloudtrail will use for encryption |
+| <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | The cross-account access role ARN for Bridgecrew |
+| <a name="output_s3_bucket_name"></a> [s3\_bucket\_name](#output\_s3\_bucket\_name) | The s3 bucket name for cloudtrail. |
+| <a name="output_s3_key_prefix"></a> [s3\_key\_prefix](#output\_s3\_key\_prefix) | The s3 log prefix for cloudtrail, inside the bucket. |
+| <a name="output_sns_topic_name"></a> [sns\_topic\_name](#output\_sns\_topic\_name) | The sns topic cloudtrail will push to. |
+| <a name="output_sqs_queue_arn"></a> [sqs\_queue\_arn](#output\_sqs\_queue\_arn) | The SQS queue ARN to share with Bridgecrew for CloudTrail integration |
+| <a name="output_sqs_queue_url"></a> [sqs\_queue\_url](#output\_sqs\_queue\_url) | The SQS queue URL to share with Bridgecrew for CloudTrail integration |
+| <a name="output_template_version"></a> [template\_version](#output\_template\_version) | Bridgecrew.io template version. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Related Projects
 
@@ -157,7 +199,7 @@ Please use the [issue tracker](https://github.com/bridgecrewio/terraform-aws-bri
 
 ## Copyrights
 
-Copyright © 2020-2021 Bridgecrew
+Copyright © 2020-2022 Bridgecrew
 
 ## License
 

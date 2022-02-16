@@ -14,6 +14,7 @@ resource "aws_sns_topic_subscription" "cloudtrail_queue" {
 }
 
 data "aws_iam_policy_document" "cloudtrail_queue" {
+  #checkov:skip=CKV_AWS_111
   count = var.create_bridgecrew_connection ? 1 : 0
   statement {
     sid = "AllowSnsAccess"

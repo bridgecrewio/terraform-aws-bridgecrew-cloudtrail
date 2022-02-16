@@ -13,6 +13,8 @@ resource "aws_kms_alias" "cloudtrail_key" {
 
 
 data "aws_iam_policy_document" "cloudtrail_key" {
+  #checkov:skip=CKV_AWS_109
+  #checkov:skip=CKV_AWS_111
   count = var.create_cloudtrail ? 1 : 0
   statement {
     sid = "AccountOwner"
