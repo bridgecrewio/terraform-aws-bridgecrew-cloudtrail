@@ -1,4 +1,5 @@
 resource "aws_cloudtrail" "trail" {
+  #checkov:skip= CKV2_AWS_10
   count          = var.create_cloudtrail ? 1 : 0
   name           = "${local.resource_name_prefix}-${data.aws_caller_identity.caller.account_id}-bridgecrewcws"
   s3_bucket_name = local.s3_bucket
